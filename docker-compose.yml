@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  price_streamer:
+    build: .
+    container_name: price_streamer
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    networks:
+      - price_feed_network
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - price_feed_network
+
+networks:
+  price_feed_network:
+    name: price_feed_network
